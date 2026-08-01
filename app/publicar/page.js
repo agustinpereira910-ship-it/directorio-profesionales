@@ -16,11 +16,19 @@ export default function PublicarPage() {
   const [form, setForm] = useState({
     nombre: '', descripcion: '', telefono: '', whatsapp: '', email: '',
   });
+  const [foto, setFoto] = useState(null);
+  const [fotoPreview, setFotoPreview] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   function update(field, value) {
     setForm((f) => ({ ...f, [field]: value }));
+  }
+
+  function onFotoChange(e) {
+    const file = e.target.files[0] || null;
+    setFoto(file);
+    setFotoPreview(file ? URL.createObjectURL(file) : null);
   }
 
   async function onSubmit(e) {
@@ -36,6 +44,22 @@ export default function PublicarPage() {
       return;
     }
 
+    let foto_url = null;
+    if (foto) {
+      const path = `${user.id}/${Date.now()}-${foto.name}`;
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from('fotos-perfil')
+        .upload(path, foto);
+
+      if (uploadError) {
+        setLoading(false);
+        setError('No pudimos subir la foto. Probá de nuevo o continuá sin foto.');
+        return;
+      }
+
+      foto_url = supabase.storage.from('fotos-perfil').getPublicUrl(uploadData.path).data.publicUrl;
+    }
+
     const slug = `${slugify(form.nombre)}-${Math.random().toString(36).slice(2, 6)}`;
 
     const { error: insertError } = await supabase.from('profesionales').insert({
@@ -46,6 +70,7 @@ export default function PublicarPage() {
       telefono: form.telefono,
       whatsapp: form.whatsapp,
       email: form.email,
+      foto_url,
       estado: 'pendiente_verificacion',
     });
 
@@ -68,6 +93,26 @@ export default function PublicarPage() {
       </p>
 
       <form onSubmit={onSubmit} className="space-y-5 bg-card border-2 border-ink rounded-sm p-6">
+        <div>
+          <label className="block text-sm font-medium text-ink mb-1">Foto de perfil (opcional)</label>
+          <div className="flex items-center gap-4">
+            <div className="w-16 h-16 rounded-full bg-line flex items-center justify-center overflow-hidden shrink-0">
+              {fotoPreview ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={fotoPreview} alt="Vista previa" className="w-full h-full object-cover" />
+              ) : (
+                <span className="text-ink font-display font-bold text-xl">?</span>
+              )}
+            </div>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={onFotoChange}
+              className="w-full text-sm text-graphite"
+            />
+          </div>
+        </div>
+
         <div>
           <label className="block text-sm font-medium text-ink mb-1">Nombre completo</label>
           <input
