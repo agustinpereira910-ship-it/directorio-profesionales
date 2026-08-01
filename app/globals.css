@@ -6,6 +6,13 @@
 
 body {
   background-color: #0B0A08;
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(212, 175, 55, 0.045) 0px,
+    rgba(212, 175, 55, 0.045) 1px,
+    transparent 1px,
+    transparent 30px
+  );
   color: #D8D2C2;
 }
 
