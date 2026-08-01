@@ -34,7 +34,7 @@ async function getResultados(q, page) {
 
 async function getFiltros() {
   const [{ data: categorias }, { data: zonas }] = await Promise.all([
-    supabase.from('categorias').select('*'),
+    supabase.from('categorias').select('*').order('orden'),
     supabase.from('zonas').select('*'),
   ]);
   return { categorias: categorias || [], zonas: zonas || [] };

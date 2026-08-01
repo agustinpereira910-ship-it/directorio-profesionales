@@ -4,7 +4,7 @@ import { supabase } from '@/lib/supabaseClient';
 import ProfesionalCard from '@/components/ProfesionalCard';
 
 async function getCategorias() {
-  const { data } = await supabase.from('categorias').select('*').limit(6);
+  const { data } = await supabase.from('categorias').select('*').order('orden').limit(6);
   return data || [];
 }
 
@@ -48,16 +48,22 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* CATEGORIAS */}
+      {/* CATEGORIAS DESTACADAS */}
       <section className="max-w-6xl mx-auto px-6 py-16">
-        <h2 className="font-display font-semibold text-2xl text-ink mb-6">Categorías</h2>
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="font-display font-semibold text-2xl text-ink">Categorías destacadas</h2>
+          <Link href="/categorias" className="text-sm text-graphite hover:text-ink">Ver todas →</Link>
+        </div>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           {categorias.map((cat) => (
             <Link
               key={cat.id}
               href={`/categorias/${cat.slug}`}
-              className="border-2 border-ink rounded-sm p-5 bg-card hover:bg-paper transition-colors flex items-center gap-3"
+              className="relative border-2 border-ink rounded-sm p-5 bg-card hover:bg-paper transition-colors flex items-center gap-3"
             >
+              <span className="absolute -top-2 -right-2 bg-ochre text-paper text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded-sm">
+                Destacado
+              </span>
               <span className="text-2xl">{cat.icono}</span>
               <span className="font-medium text-ink">{cat.nombre}</span>
             </Link>

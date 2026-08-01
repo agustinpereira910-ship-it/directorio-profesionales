@@ -20,6 +20,7 @@ create table categorias (
   nombre text not null,
   slug text unique not null,
   icono text,
+  orden integer not null default 100, -- menor = aparece primero
   categoria_padre_id uuid references categorias(id),
   created_at timestamptz default now()
 );
@@ -138,15 +139,64 @@ create index if not exists idx_profesionales_descripcion_trgm
   on profesionales using gin (descripcion gin_trgm_ops);
 
 -- ============================================
--- DATOS DE EJEMPLO (opcional, para probar ya mismo)
+-- CATEGORÍAS: profesionales universitarios primero, después
+-- servicios especializados, y por último oficios/hogar.
 -- ============================================
-insert into categorias (nombre, slug, icono) values
-  ('Plomería', 'plomeria', '🔧'),
-  ('Electricidad', 'electricidad', '💡'),
-  ('Albañilería', 'albanileria', '🧱'),
-  ('Jardinería', 'jardineria', '🌿'),
-  ('Pintura', 'pintura', '🎨'),
-  ('Limpieza', 'limpieza', '🧹');
+create index if not exists idx_categorias_orden on categorias (orden);
+
+insert into categorias (nombre, slug, icono, orden) values
+  -- Profesionales
+  ('Abogados', 'abogados', '⚖️', 1),
+  ('Escribanos', 'escribanos', '📜', 2),
+  ('Médicos', 'medicos', '🩺', 3),
+  ('Psicólogos', 'psicologos', '🧠', 4),
+  ('Contadores', 'contadores', '📊', 5),
+  ('Odontólogos', 'odontologos', '🦷', 6),
+  ('Arquitectos', 'arquitectos', '📐', 7),
+  ('Ingenieros civiles', 'ingenieros', '🏗️', 8),
+  ('Nutricionistas', 'nutricionistas', '🥗', 9),
+  ('Kinesiólogos', 'kinesiologos', '🏃', 10),
+  ('Veterinarios', 'veterinarios', '🐾', 11),
+  ('Traductores', 'traductores', '🌐', 12),
+  -- Servicios especializados y personales
+  ('Diseño gráfico', 'diseno-grafico', '🎨', 20),
+  ('Clases particulares', 'clases-particulares', '📚', 21),
+  ('Personal trainer', 'personal-trainer', '💪', 22),
+  ('Fotografía', 'fotografia', '📷', 23),
+  ('Chef y catering', 'chef-catering', '👨‍🍳', 24),
+  ('Niñera y cuidado infantil', 'ninera', '👶', 25),
+  ('Cuidado de adultos mayores', 'cuidado-adultos-mayores', '👵', 26),
+  ('Peluquería', 'peluqueria', '💇', 27),
+  ('Estética y manicura', 'estetica', '💅', 28),
+  ('Masajista', 'masajista', '💆', 29),
+  -- Oficios y hogar
+  ('Plomería', 'plomeria', '🔧', 40),
+  ('Electricidad', 'electricidad', '💡', 41),
+  ('Gasista', 'gasista', '🔥', 42),
+  ('Albañilería', 'albanileria', '🧱', 43),
+  ('Carpintería', 'carpinteria', '🪚', 44),
+  ('Herrería', 'herreria', '⚒️', 45),
+  ('Techista', 'techista', '🏠', 46),
+  ('Cerrajería', 'cerrajeria', '🔑', 47),
+  ('Climatización', 'climatizacion', '❄️', 48),
+  ('Durlock y yesería', 'durlock', '🧱', 49),
+  ('Vidriería', 'vidrieria', '🪟', 50),
+  ('Tapicería', 'tapiceria', '🛋️', 51),
+  ('Jardinería', 'jardineria', '🌿', 52),
+  ('Pintura', 'pintura', '🎨', 53),
+  ('Limpieza', 'limpieza', '🧹', 54),
+  ('Mantenimiento de piscinas', 'piscinas', '🏊', 55),
+  ('Fumigación y control de plagas', 'fumigacion', '🐜', 56),
+  ('Mecánica automotriz', 'mecanica', '🚗', 57),
+  ('Reparación de PC', 'reparacion-pc', '💻', 58),
+  ('Restauración de muebles', 'mueblista', '🪑', 59),
+  ('Costura y modista', 'costura', '🧵', 60),
+  ('Mudanzas y fletes', 'mudanzas', '🚚', 61),
+  ('Paseador de perros', 'paseador-perros', '🐕', 62)
+on conflict (slug) do update set
+  nombre = excluded.nombre,
+  icono = excluded.icono,
+  orden = excluded.orden;
 
 insert into zonas (nombre, departamento) values
   ('Maldonado', 'Maldonado'),
