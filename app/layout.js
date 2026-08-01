@@ -3,7 +3,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
 export const metadata = {
-  title: 'Directorio de Profesionales Independientes',
+  title: 'Vips — Directorio de Profesionales Independientes',
   description: 'Encontrá profesionales verificados cerca tuyo, sin intermediarios.',
 };
 

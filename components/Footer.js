@@ -5,7 +5,7 @@ export default function Footer() {
     <footer className="border-t-2 border-ink mt-20 bg-paper">
       <div className="max-w-6xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-3 gap-8 text-sm">
         <div>
-          <p className="font-display font-bold text-ink mb-2">Directorio.</p>
+          <p className="font-display font-bold text-ink mb-2">Vips.</p>
           <p className="text-graphite">
             Profesionales verificados, tarifa fija, sin comisión sobre tus trabajos.
           </p>

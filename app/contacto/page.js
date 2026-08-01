@@ -5,7 +5,7 @@ export default function ContactoPage() {
       <p className="text-graphite">
         ¿Tenés dudas o problemas con tu publicación? Escribinos y te respondemos a la brevedad.
       </p>
-      <p className="font-mono text-sm text-ink mt-6">contacto@tudirectorio.com</p>
+      <p className="font-mono text-sm text-ink mt-6">contacto@vips.com</p>
     </div>
   );
 }

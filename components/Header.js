@@ -32,8 +32,16 @@ export default function Header() {
   return (
     <header className="border-b-2 border-ink bg-paper">
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-        <Link href="/" className="font-display font-bold text-xl text-ink tracking-tight">
-          Directorio<span className="text-ochre">.</span>
+        <Link href="/" className="flex items-center gap-3">
+          <span className="font-display font-bold text-xl text-ink tracking-tight">
+            Vips<span className="text-ochre">.</span>
+          </span>
+          <span className="flex gap-1 text-lg leading-none" aria-label="Paraguay, Uruguay, Argentina, Brasil">
+            <span title="Paraguay">🇵🇾</span>
+            <span title="Uruguay">🇺🇾</span>
+            <span title="Argentina">🇦🇷</span>
+            <span title="Brasil">🇧🇷</span>
+          </span>
         </Link>
         <nav className="hidden md:flex gap-6 font-body text-sm text-graphite">
           <Link href="/buscar" className="hover:text-ink">Buscar profesionales</Link>

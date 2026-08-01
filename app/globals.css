@@ -5,12 +5,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap');
 
 body {
-  background-color: #F7F4EE;
-  color: #22252B;
+  background-color: #0B0A08;
+  color: #D8D2C2;
 }
 
 .ticket-edge {
-  background-image: radial-gradient(circle, #F7F4EE 3px, transparent 3px);
+  background-image: radial-gradient(circle, #0B0A08 3px, transparent 3px);
   background-size: 14px 14px;
   background-position: top;
   background-repeat: repeat-x;

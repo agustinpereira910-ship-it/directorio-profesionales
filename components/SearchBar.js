@@ -18,7 +18,7 @@ export default function SearchBar() {
         value={q}
         onChange={(e) => setQ(e.target.value)}
         placeholder="¿Qué necesitás? Ej: electricista en Punta del Este"
-        className="flex-1 border-2 border-ink rounded-sm px-4 py-3 font-body text-graphite focus:outline-none focus:ring-2 focus:ring-ochre"
+        className="flex-1 bg-card border-2 border-ink rounded-sm px-4 py-3 font-body text-graphite focus:outline-none focus:ring-2 focus:ring-ochre"
       />
       <button
         type="submit"

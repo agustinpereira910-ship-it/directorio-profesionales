@@ -12,7 +12,7 @@ export default async function CategoriasPage() {
           <Link
             key={cat.id}
             href={`/categorias/${cat.slug}`}
-            className="border-2 border-ink rounded-sm p-6 bg-white hover:bg-paper transition-colors flex items-center gap-3"
+            className="border-2 border-ink rounded-sm p-6 bg-card hover:bg-paper transition-colors flex items-center gap-3"
           >
             <span className="text-2xl">{cat.icono}</span>
             <span className="font-medium text-ink">{cat.nombre}</span>

@@ -56,7 +56,7 @@ export default async function Home() {
             <Link
               key={cat.id}
               href={`/categorias/${cat.slug}`}
-              className="border-2 border-ink rounded-sm p-5 bg-white hover:bg-paper transition-colors flex items-center gap-3"
+              className="border-2 border-ink rounded-sm p-5 bg-card hover:bg-paper transition-colors flex items-center gap-3"
             >
               <span className="text-2xl">{cat.icono}</span>
               <span className="font-medium text-ink">{cat.nombre}</span>
@@ -88,7 +88,7 @@ export default async function Home() {
           </p>
           <Link
             href="/publicar"
-            className="inline-block bg-ochre text-ink font-medium px-6 py-3 rounded-sm hover:brightness-95 transition"
+            className="inline-block bg-ochre text-paper font-medium px-6 py-3 rounded-sm hover:brightness-95 transition"
           >
             Publicar mi perfil
           </Link>

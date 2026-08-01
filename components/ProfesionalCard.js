@@ -8,7 +8,7 @@ export default function ProfesionalCard({ profesional }) {
   return (
     <Link
       href={`/profesional/${slug}`}
-      className="block bg-white border-2 border-ink rounded-sm overflow-hidden hover:-translate-y-1 transition-transform relative"
+      className="block bg-card border-2 border-ink rounded-sm overflow-hidden hover:-translate-y-1 transition-transform relative"
     >
       <div className="p-5">
         <div className="flex items-start justify-between">

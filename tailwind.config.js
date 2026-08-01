@@ -7,13 +7,14 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        ink: '#1B2A4A',      // azul tinta — color primario, confianza/formalidad
-        paper: '#F7F4EE',    // papel/ficha — fondo
-        ochre: '#D4A017',    // ocre — acento, evoca herramienta/sello
-        graphite: '#22252B', // texto principal
-        verified: '#2F6B4F', // verde sello de verificación
-        alert: '#C1524A',    // coral — vencimientos/alertas, uso puntual
-        line: '#D9D3C4',     // líneas divisoras tipo ticket perforado
+        ink: '#D4AF37',      // dorado — color primario, títulos, bordes, CTA
+        paper: '#0B0A08',    // negro cálido — fondo general
+        card: '#151310',     // negro carbón — fondo de tarjetas/paneles
+        ochre: '#F0C674',    // dorado claro — acento secundario, sellos
+        graphite: '#D8D2C2', // beige claro — texto principal sobre fondo oscuro
+        verified: '#4FB37E', // verde sello de verificación
+        alert: '#E2665C',    // coral — vencimientos/alertas
+        line: '#3A3226',     // líneas divisoras sutiles sobre negro
       },
       fontFamily: {
         display: ['"Space Grotesk"', 'sans-serif'],
@@ -21,7 +22,7 @@ module.exports = {
         mono: ['"IBM Plex Mono"', 'monospace'],
       },
       backgroundImage: {
-        perforation: 'radial-gradient(circle, transparent 4px, #F7F4EE 4px)',
+        perforation: 'radial-gradient(circle, transparent 4px, #0B0A08 4px)',
       },
     },
   },

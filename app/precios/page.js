@@ -7,7 +7,7 @@ export default function PreciosPage() {
       <h1 className="font-display font-bold text-3xl text-ink mb-4">Precios</h1>
       <p className="text-graphite mb-10">Sin comisión sobre tus trabajos. Pagás una tarifa fija y listo.</p>
 
-      <div className="bg-white border-2 border-ink rounded-sm p-8 inline-block">
+      <div className="bg-card border-2 border-ink rounded-sm p-8 inline-block">
         <p className="font-mono text-xs uppercase text-ochre mb-2">Publicación mensual</p>
         <p className="font-display font-bold text-4xl text-ink mb-4">${PLAN_MONTO} <span className="text-base font-body text-graphite">UYU / mes</span></p>
         <ul className="text-left text-graphite text-sm space-y-2 mb-6">

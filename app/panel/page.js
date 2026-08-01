@@ -46,7 +46,7 @@ export default function PanelPage() {
     <div className="max-w-2xl mx-auto px-6 py-12">
       <h1 className="font-display font-bold text-3xl text-ink mb-6">Mi panel</h1>
 
-      <div className="bg-white border-2 border-ink rounded-sm p-6">
+      <div className="bg-card border-2 border-ink rounded-sm p-6">
         <div className="flex items-center justify-between mb-4">
           <p className="font-display font-semibold text-xl text-ink">{perfil.nombre}</p>
           <span className="font-mono text-xs uppercase px-3 py-1 rounded-sm border-2 border-ink">
@@ -56,7 +56,7 @@ export default function PanelPage() {
         <p className="text-graphite mb-6">{perfil.descripcion}</p>
 
         {perfil.estado === 'pendiente_verificacion' && (
-          <Link href="/panel/pago" className="bg-ochre text-ink font-medium px-5 py-3 rounded-sm inline-block">
+          <Link href="/panel/pago" className="bg-ochre text-paper font-medium px-5 py-3 rounded-sm inline-block">
             Completar pago para activar
           </Link>
         )}

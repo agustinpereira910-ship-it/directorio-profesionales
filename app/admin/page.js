@@ -57,7 +57,7 @@ export default function AdminPage() {
         </h2>
         <div className="space-y-3">
           {pendientes.map((p) => (
-            <div key={p.id} className="bg-white border-2 border-ink rounded-sm p-4 flex items-center justify-between">
+            <div key={p.id} className="bg-card border-2 border-ink rounded-sm p-4 flex items-center justify-between">
               <div>
                 <p className="font-medium text-ink">{p.nombre}</p>
                 <p className="text-sm text-graphite">{p.descripcion}</p>
@@ -78,7 +78,7 @@ export default function AdminPage() {
         </h2>
         <div className="space-y-3">
           {pagosPendientes.map((pago) => (
-            <div key={pago.id} className="bg-white border-2 border-ink rounded-sm p-4 flex items-center justify-between">
+            <div key={pago.id} className="bg-card border-2 border-ink rounded-sm p-4 flex items-center justify-between">
               <div>
                 <p className="font-medium text-ink">{pago.profesionales?.nombre}</p>
                 <p className="text-sm text-graphite font-mono">

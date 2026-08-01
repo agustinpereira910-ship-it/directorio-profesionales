@@ -20,7 +20,7 @@ export default async function PerfilProfesional({ params }) {
 
   return (
     <div className="max-w-3xl mx-auto px-6 py-12">
-      <div className="border-2 border-ink rounded-sm bg-white overflow-hidden">
+      <div className="border-2 border-ink rounded-sm bg-card overflow-hidden">
         <div className="p-8">
           <div className="flex items-center gap-4 mb-4">
             <div className="w-16 h-16 rounded-full bg-line flex items-center justify-center font-display font-bold text-xl text-ink overflow-hidden">

@@ -45,7 +45,7 @@ export async function POST(request) {
     body: JSON.stringify({
       items: [
         {
-          title: 'Publicación en Directorio de Profesionales',
+          title: 'Publicación en Vips',
           quantity: 1,
           currency_id: 'UYU',
           unit_price: PLAN_MONTO_MERCADOPAGO,

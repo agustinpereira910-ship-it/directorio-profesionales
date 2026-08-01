@@ -107,7 +107,7 @@ export default function PagoPage() {
         ))}
       </div>
 
-      <div className="bg-white border-2 border-ink rounded-sm p-6">
+      <div className="bg-card border-2 border-ink rounded-sm p-6">
         {metodo === 'mercado_pago' && (
           <div>
             <p className="text-graphite mb-4">
