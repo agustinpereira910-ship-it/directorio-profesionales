@@ -43,7 +43,9 @@ create table profesionales (
     check (estado in ('pendiente_verificacion','activo','vencido','rechazado')),
   verificado boolean default false,
   fecha_alta timestamptz default now(),
-  fecha_vencimiento timestamptz
+  fecha_vencimiento timestamptz,
+  mp_preapproval_id text, -- id de la suscripción en Mercado Pago (si paga por ahí)
+  recordatorio_enviado_at timestamptz -- evita mandar el aviso de vencimiento más de una vez
 );
 
 -- ---------- PAGOS ----------

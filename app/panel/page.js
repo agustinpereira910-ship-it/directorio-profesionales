@@ -47,19 +47,34 @@ export default function PanelPage() {
       <h1 className="font-display font-bold text-3xl text-ink mb-6">Mi panel</h1>
 
       <div className="bg-card border-2 border-ink rounded-sm p-6">
-        <div className="flex items-center justify-between mb-4">
-          <p className="font-display font-semibold text-xl text-ink">{perfil.nombre}</p>
-          <span className="font-mono text-xs uppercase px-3 py-1 rounded-sm border-2 border-ink">
-            {ESTADO_LABEL[perfil.estado]}
-          </span>
+        <div className="flex items-center gap-4 mb-4">
+          <div className="w-14 h-14 rounded-full bg-line flex items-center justify-center overflow-hidden shrink-0">
+            {perfil.foto_url ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={perfil.foto_url} alt={perfil.nombre} className="w-full h-full object-cover" />
+            ) : (
+              <span className="text-ink font-display font-bold text-xl">{perfil.nombre?.charAt(0)}</span>
+            )}
+          </div>
+          <div className="flex-1 flex items-center justify-between">
+            <p className="font-display font-semibold text-xl text-ink">{perfil.nombre}</p>
+            <span className="font-mono text-xs uppercase px-3 py-1 rounded-sm border-2 border-ink">
+              {ESTADO_LABEL[perfil.estado]}
+            </span>
+          </div>
         </div>
         <p className="text-graphite mb-6">{perfil.descripcion}</p>
 
-        {perfil.estado === 'pendiente_verificacion' && (
-          <Link href="/panel/pago" className="bg-ochre text-paper font-medium px-5 py-3 rounded-sm inline-block">
-            Completar pago para activar
+        <div className="flex gap-3 flex-wrap">
+          {perfil.estado === 'pendiente_verificacion' && (
+            <Link href="/panel/pago" className="bg-ochre text-paper font-medium px-5 py-3 rounded-sm inline-block">
+              Completar pago para activar
+            </Link>
+          )}
+          <Link href="/panel/editar" className="border-2 border-ink text-ink font-medium px-5 py-3 rounded-sm inline-block hover:bg-paper transition">
+            Editar mi perfil
           </Link>
-        )}
+        </div>
       </div>
     </div>
   );

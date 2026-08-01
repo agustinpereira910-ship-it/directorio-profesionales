@@ -28,10 +28,10 @@ export default function PagoPage() {
   async function pagarConMercadoPago() {
     if (!profesionalId) return;
     setLoading(true);
-    // Esto llama a una API route que crea la preferencia de pago en Mercado Pago.
-    // Ver app/api/mercadopago/route.js — necesita MERCADOPAGO_ACCESS_TOKEN en .env.local
+    // Crea una suscripción mensual recurrente en Mercado Pago (Preapproval API).
+    // Ver app/api/mercadopago/suscripcion/route.js — necesita MERCADOPAGO_ACCESS_TOKEN.
     const { data: { session } } = await supabase.auth.getSession();
-    const res = await fetch('/api/mercadopago', {
+    const res = await fetch('/api/mercadopago/suscripcion', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -121,14 +121,16 @@ export default function PagoPage() {
         {metodo === 'mercado_pago' && (
           <div>
             <p className="text-graphite mb-4">
-              Pagás online y tu publicación se activa automáticamente al confirmarse el pago.
+              Autorizás una suscripción mensual: se te cobra automáticamente cada mes y tu
+              publicación se activa sola. Podés cancelarla cuando quieras desde tu cuenta de
+              Mercado Pago.
             </p>
             <button
               onClick={pagarConMercadoPago}
               disabled={loading || !profesionalId}
               className="w-full bg-ink text-paper font-medium py-3 rounded-sm hover:bg-graphite transition disabled:opacity-50"
             >
-              {loading ? 'Redirigiendo...' : 'Pagar con Mercado Pago'}
+              {loading ? 'Redirigiendo...' : 'Suscribirme con Mercado Pago'}
             </button>
           </div>
         )}
@@ -137,7 +139,8 @@ export default function PagoPage() {
           <form onSubmit={enviarComprobante}>
             <p className="text-graphite mb-4">
               Transferí a la siguiente cuenta y subí el comprobante. Tu publicación se activa
-              cuando lo revisemos (normalmente en el día).
+              cuando lo revisemos (normalmente en el día). Como no es un cobro automático, te
+              vamos a avisar por email unos días antes de que venza el mes para que renueves.
             </p>
             <div className="bg-paper border-2 border-dashed border-line rounded-sm p-4 font-mono text-sm mb-4">
               {cuentaTexto}

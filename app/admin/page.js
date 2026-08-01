@@ -43,9 +43,16 @@ export default function AdminPage() {
   }
 
   async function aprobarPago(id, profesionalId) {
+    const fechaVencimiento = new Date();
+    fechaVencimiento.setMonth(fechaVencimiento.getMonth() + 1);
+
     await supabase.from('pagos').update({ estado: 'aprobado' }).eq('id', id);
     await supabase.from('profesionales')
-      .update({ estado: 'activo' })
+      .update({
+        estado: 'activo',
+        fecha_vencimiento: fechaVencimiento.toISOString(),
+        recordatorio_enviado_at: null,
+      })
       .eq('id', profesionalId);
     cargar();
   }
