@@ -26,6 +26,10 @@ export default function Footer() {
           </ul>
         </div>
       </div>
+      <div className="max-w-6xl mx-auto px-6 pb-8 flex gap-4 text-xs text-graphite border-t border-line pt-4">
+        <Link href="/terminos" className="hover:text-ink">Términos y Condiciones</Link>
+        <Link href="/privacidad" className="hover:text-ink">Política de Privacidad</Link>
+      </div>
     </footer>
   );
 }
