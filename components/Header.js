@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabaseClient';
+import { FlagPY, FlagUY, FlagAR, FlagBR } from '@/components/Flags';
 
 export default function Header() {
   const router = useRouter();
@@ -36,11 +37,11 @@ export default function Header() {
           <span className="font-display font-bold text-xl text-ink tracking-tight">
             Vips<span className="text-ochre">.</span>
           </span>
-          <span className="flex gap-1 text-lg leading-none" aria-label="Paraguay, Uruguay, Argentina, Brasil">
-            <span title="Paraguay">🇵🇾</span>
-            <span title="Uruguay">🇺🇾</span>
-            <span title="Argentina">🇦🇷</span>
-            <span title="Brasil">🇧🇷</span>
+          <span className="flex gap-1.5 items-center" aria-label="Paraguay, Uruguay, Argentina, Brasil">
+            <FlagPY className="w-5 h-auto rounded-[2px] ring-1 ring-line" />
+            <FlagUY className="w-5 h-auto rounded-[2px] ring-1 ring-line" />
+            <FlagAR className="w-5 h-auto rounded-[2px] ring-1 ring-line" />
+            <FlagBR className="w-5 h-auto rounded-[2px] ring-1 ring-line" />
           </span>
         </Link>
         <nav className="hidden md:flex gap-6 font-body text-sm text-graphite">
