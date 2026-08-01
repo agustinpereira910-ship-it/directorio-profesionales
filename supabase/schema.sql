@@ -227,3 +227,37 @@ insert into zonas (nombre, departamento) values
 -- (esto se hace desde Supabase → Storage → New bucket, no por SQL,
 --  pero dejá anotado: crear "fotos-perfil" público y "comprobantes" privado)
 -- ============================================
+
+-- Políticas de Storage (storage.objects). Sin esto, las subidas de
+-- archivos quedan bloqueadas por RLS aunque el bucket exista.
+create policy "Usuarios suben su propio comprobante"
+  on storage.objects for insert
+  with check (
+    bucket_id = 'comprobantes'
+    and (storage.foldername(name))[1] = auth.uid()::text
+  );
+
+create policy "Usuarios ven su propio comprobante"
+  on storage.objects for select
+  using (
+    bucket_id = 'comprobantes'
+    and (storage.foldername(name))[1] = auth.uid()::text
+  );
+
+create policy "Admin ve todos los comprobantes"
+  on storage.objects for select
+  using (
+    bucket_id = 'comprobantes'
+    and auth.jwt() ->> 'email' = 'agustinpereira910@gmail.com'
+  );
+
+create policy "Usuarios suben su propia foto de perfil"
+  on storage.objects for insert
+  with check (
+    bucket_id = 'fotos-perfil'
+    and (storage.foldername(name))[1] = auth.uid()::text
+  );
+
+create policy "Cualquiera puede ver fotos de perfil"
+  on storage.objects for select
+  using (bucket_id = 'fotos-perfil');

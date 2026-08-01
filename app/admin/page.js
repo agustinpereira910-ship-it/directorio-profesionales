@@ -17,7 +17,15 @@ export default function AdminPage() {
       .from('pagos')
       .select('*, profesionales(nombre)')
       .eq('estado', 'pendiente');
-    setPagosPendientes(pagos || []);
+
+    const conComprobanteUrl = await Promise.all((pagos || []).map(async (pago) => {
+      if (!pago.comprobante_url) return pago;
+      const { data } = await supabase.storage
+        .from('comprobantes')
+        .createSignedUrl(pago.comprobante_url, 60 * 10);
+      return { ...pago, comprobante_link: data?.signedUrl || null };
+    }));
+    setPagosPendientes(conComprobanteUrl);
   }
 
   useEffect(() => { cargar(); }, []);
@@ -84,9 +92,18 @@ export default function AdminPage() {
                 <p className="text-sm text-graphite font-mono">
                   {pago.metodo} · ${pago.monto}
                 </p>
-                {pago.comprobante_url && (
-                  <p className="text-xs text-graphite">Comprobante: {pago.comprobante_url}</p>
-                )}
+                {pago.comprobante_link ? (
+                  <a
+                    href={pago.comprobante_link}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-xs text-ink underline"
+                  >
+                    Ver comprobante
+                  </a>
+                ) : pago.comprobante_url ? (
+                  <p className="text-xs text-alert">No se pudo generar el link del comprobante.</p>
+                ) : null}
               </div>
               <div className="flex gap-2">
                 <button onClick={() => aprobarPago(pago.id, pago.profesional_id)} className="bg-verified text-white text-sm px-3 py-1 rounded-sm">Aprobar</button>

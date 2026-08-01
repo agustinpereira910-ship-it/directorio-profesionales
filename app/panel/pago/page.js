@@ -9,6 +9,7 @@ export default function PagoPage() {
   const [enviado, setEnviado] = useState(false);
   const [loading, setLoading] = useState(false);
   const [profesionalId, setProfesionalId] = useState(null);
+  const [errorComprobante, setErrorComprobante] = useState('');
 
   useEffect(() => {
     async function cargarProfesional() {
@@ -46,6 +47,7 @@ export default function PagoPage() {
   async function enviarComprobante(e) {
     e.preventDefault();
     setLoading(true);
+    setErrorComprobante('');
 
     const { data: { user } } = await supabase.auth.getUser();
     const { data: profesional } = await supabase
@@ -54,24 +56,32 @@ export default function PagoPage() {
       .eq('user_id', user.id)
       .single();
 
-    let comprobante_url = null;
-    if (comprobante) {
-      const path = `${user.id}/${Date.now()}-${comprobante.name}`;
-      const { data: uploadData } = await supabase.storage
-        .from('comprobantes')
-        .upload(path, comprobante);
-      comprobante_url = uploadData?.path;
+    const path = `${user.id}/${Date.now()}-${comprobante.name}`;
+    const { data: uploadData, error: uploadError } = await supabase.storage
+      .from('comprobantes')
+      .upload(path, comprobante);
+
+    if (uploadError) {
+      setLoading(false);
+      setErrorComprobante('No pudimos subir el comprobante. Probá de nuevo en unos minutos.');
+      return;
     }
 
-    await supabase.from('pagos').insert({
+    const { error: insertError } = await supabase.from('pagos').insert({
       profesional_id: profesional.id,
       metodo,
       monto: PLAN_MONTO,
       estado: 'pendiente',
-      comprobante_url,
+      comprobante_url: uploadData.path,
     });
 
     setLoading(false);
+
+    if (insertError) {
+      setErrorComprobante('No pudimos registrar el pago. Probá de nuevo.');
+      return;
+    }
+
     setEnviado(true);
   }
 
@@ -140,6 +150,7 @@ export default function PagoPage() {
               required
               className="w-full mb-4 text-sm"
             />
+            {errorComprobante && <p className="text-alert text-sm mb-4">{errorComprobante}</p>}
             <button
               type="submit"
               disabled={loading}
