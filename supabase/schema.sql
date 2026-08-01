@@ -198,11 +198,29 @@ on conflict (slug) do update set
   icono = excluded.icono,
   orden = excluded.orden;
 
+-- Los 19 departamentos de Uruguay, más Punta del Este como localidad
+-- destacada dentro de Maldonado.
 insert into zonas (nombre, departamento) values
+  ('Montevideo', 'Montevideo'),
+  ('Canelones', 'Canelones'),
   ('Maldonado', 'Maldonado'),
   ('Punta del Este', 'Maldonado'),
-  ('Montevideo', 'Montevideo'),
-  ('Canelones', 'Canelones');
+  ('Artigas', 'Artigas'),
+  ('Cerro Largo', 'Cerro Largo'),
+  ('Colonia', 'Colonia'),
+  ('Durazno', 'Durazno'),
+  ('Flores', 'Flores'),
+  ('Florida', 'Florida'),
+  ('Lavalleja', 'Lavalleja'),
+  ('Paysandú', 'Paysandú'),
+  ('Río Negro', 'Río Negro'),
+  ('Rivera', 'Rivera'),
+  ('Rocha', 'Rocha'),
+  ('Salto', 'Salto'),
+  ('San José', 'San José'),
+  ('Soriano', 'Soriano'),
+  ('Tacuarembó', 'Tacuarembó'),
+  ('Treinta y Tres', 'Treinta y Tres');
 
 -- ============================================
 -- STORAGE: crear bucket para fotos de perfil y comprobantes
