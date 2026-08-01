@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { supabase } from '@/lib/supabaseClient';
 
+export const revalidate = 60;
+
 export default async function CategoriasPage() {
   const { data: categorias } = await supabase.from('categorias').select('*').order('orden');
 

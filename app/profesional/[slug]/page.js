@@ -1,6 +1,8 @@
 import { supabase } from '@/lib/supabaseClient';
 import { notFound } from 'next/navigation';
 
+export const revalidate = 60;
+
 // Normaliza números de WhatsApp uruguayos al formato internacional que
 // entiende wa.me (598XXXXXXXX), sin importar cómo lo haya escrito el
 // profesional (con 0 inicial, con o sin 598, con espacios/guiones).

@@ -3,6 +3,8 @@ import SearchBar from '@/components/SearchBar';
 import { supabase } from '@/lib/supabaseClient';
 import ProfesionalCard from '@/components/ProfesionalCard';
 
+export const revalidate = 60;
+
 async function getCategorias() {
   const { data } = await supabase.from('categorias').select('*').order('orden').limit(6);
   return data || [];
