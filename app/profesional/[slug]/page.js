@@ -1,6 +1,16 @@
 import { supabase } from '@/lib/supabaseClient';
 import { notFound } from 'next/navigation';
 
+// Normaliza números de WhatsApp uruguayos al formato internacional que
+// entiende wa.me (598XXXXXXXX), sin importar cómo lo haya escrito el
+// profesional (con 0 inicial, con o sin 598, con espacios/guiones).
+function normalizarWhatsapp(numero) {
+  let digitos = numero.replace(/\D/g, '');
+  if (digitos.startsWith('598')) return digitos;
+  if (digitos.startsWith('0')) digitos = digitos.slice(1);
+  return `598${digitos}`;
+}
+
 async function getProfesional(slug) {
   const { data } = await supabase
     .from('profesionales')
@@ -55,7 +65,7 @@ export default async function PerfilProfesional({ params }) {
 
           {whatsapp && (
             <a
-              href={`https://wa.me/${whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent(
+              href={`https://wa.me/${normalizarWhatsapp(whatsapp)}?text=${encodeURIComponent(
                 `Hola ${nombre}, te encontré en Vips y quería consultarte por tus servicios.`
               )}`}
               target="_blank"

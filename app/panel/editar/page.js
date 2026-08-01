@@ -163,8 +163,10 @@ export default function EditarPerfilPage() {
             <input
               value={form.whatsapp}
               onChange={(e) => update('whatsapp', e.target.value)}
+              placeholder="099 123 456"
               className="w-full bg-paper text-graphite border-2 border-line rounded-sm px-3 py-2 focus:outline-none focus:border-ink"
             />
+            <p className="text-xs text-graphite mt-1">Con o sin 598, lo normalizamos solos.</p>
           </div>
         </div>
 
