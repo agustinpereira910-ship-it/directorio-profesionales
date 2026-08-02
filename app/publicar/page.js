@@ -62,17 +62,21 @@ export default function PublicarPage() {
 
     const slug = `${slugify(form.nombre)}-${Math.random().toString(36).slice(2, 6)}`;
 
-    const { error: insertError } = await supabase.from('profesionales').insert({
-      user_id: user.id,
-      nombre: form.nombre,
-      slug,
-      descripcion: form.descripcion,
-      telefono: form.telefono,
-      whatsapp: form.whatsapp,
-      email: form.email,
-      foto_url,
-      estado: 'pendiente_verificacion',
-    });
+    const { data: nuevoProfesional, error: insertError } = await supabase
+      .from('profesionales')
+      .insert({
+        user_id: user.id,
+        nombre: form.nombre,
+        slug,
+        descripcion: form.descripcion,
+        telefono: form.telefono,
+        whatsapp: form.whatsapp,
+        email: form.email,
+        foto_url,
+        estado: 'pendiente_verificacion',
+      })
+      .select('id')
+      .single();
 
     setLoading(false);
 
@@ -80,6 +84,17 @@ export default function PublicarPage() {
       setError('Ocurrió un error al guardar tu perfil. Probá de nuevo.');
       return;
     }
+
+    // Aviso automático por email para que complete el pago (no bloquea la navegación).
+    const { data: { session } } = await supabase.auth.getSession();
+    fetch('/api/notificaciones/registro', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${session?.access_token}`,
+      },
+      body: JSON.stringify({ profesional_id: nuevoProfesional.id, nombre: form.nombre }),
+    }).catch(() => {});
 
     router.push('/panel/pago');
   }
