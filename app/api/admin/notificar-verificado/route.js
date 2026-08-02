@@ -11,7 +11,13 @@ export async function POST(request) {
     return NextResponse.json({ error: 'Demasiados intentos' }, { status: 429 });
   }
 
-  const { profesional_id } = await request.json();
+  let body = {};
+  try {
+    body = await request.json();
+  } catch {
+    // cuerpo vacío o inválido
+  }
+  const { profesional_id } = body;
   const authHeader = request.headers.get('authorization');
 
   if (!profesional_id || !authHeader) {
