@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { PLAN_MONTO } from '@/lib/planes';
+import { LogoMercadoPago, LogoScotiabank, LogoItau } from '@/components/LogosPago';
 
 export default function PreciosPage() {
   return (
@@ -19,6 +20,15 @@ export default function PreciosPage() {
         <Link href="/publicar" className="bg-ink text-paper font-medium px-6 py-3 rounded-sm inline-block hover:bg-graphite transition">
           Publicar mi perfil
         </Link>
+
+        <div className="mt-6 pt-6 border-t border-line">
+          <p className="font-mono text-xs uppercase text-graphite mb-3">Medios de pago aceptados</p>
+          <div className="flex justify-center gap-3">
+            <LogoMercadoPago className="w-9 h-9 rounded-sm" />
+            <LogoScotiabank className="w-9 h-9 rounded-sm" />
+            <LogoItau className="w-9 h-9 rounded-sm" />
+          </div>
+        </div>
       </div>
     </div>
   );
