@@ -34,10 +34,22 @@ export default function AdminPage() {
   // marca que revisaste el contenido y no es spam/falso. La activación real
   // (estado -> 'activo') pasa únicamente cuando se confirma el pago, en
   // aprobarPago() o automáticamente por el webhook de Mercado Pago.
+  // Al marcarlo, se le manda un email al profesional avisándole que ya puede pagar.
   async function marcarVerificado(id) {
     await supabase.from('profesionales')
       .update({ verificado: true })
       .eq('id', id);
+
+    const { data: { session } } = await supabase.auth.getSession();
+    fetch('/api/admin/notificar-verificado', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${session?.access_token}`,
+      },
+      body: JSON.stringify({ profesional_id: id }),
+    }).catch(() => {});
+
     cargar();
   }
 
