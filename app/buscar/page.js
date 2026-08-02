@@ -4,7 +4,7 @@ import SearchBar from '@/components/SearchBar';
 
 const RESULTADOS_POR_PAGINA = 24;
 
-async function getResultados(q, page) {
+async function getResultados(q, zonaId, page) {
   let query = supabase
     .from('profesionales')
     .select('*, categorias(nombre), zonas(nombre)', { count: 'exact' })
@@ -15,6 +15,10 @@ async function getResultados(q, page) {
     // para que el texto de búsqueda no pueda alterar la estructura del filtro.
     const safeQ = q.replace(/[,()]/g, '');
     query = query.or(`nombre.ilike.%${safeQ}%,descripcion.ilike.%${safeQ}%`);
+  }
+
+  if (zonaId) {
+    query = query.eq('zona_id', zonaId);
   }
 
   const from = (page - 1) * RESULTADOS_POR_PAGINA;
@@ -42,11 +46,13 @@ async function getFiltros() {
 
 export default async function BuscarPage({ searchParams }) {
   const q = searchParams?.q || '';
+  const zona = searchParams?.zona || '';
   const page = Math.max(1, parseInt(searchParams?.page, 10) || 1);
-  const { resultados, total } = await getResultados(q, page);
+  const { resultados, total } = await getResultados(q, zona, page);
   const { categorias, zonas } = await getFiltros();
   const totalPaginas = Math.max(1, Math.ceil(total / RESULTADOS_POR_PAGINA));
   const qParam = q ? `&q=${encodeURIComponent(q)}` : '';
+  const zonaParam = zona ? `&zona=${zona}` : '';
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-12">
@@ -72,10 +78,24 @@ export default async function BuscarPage({ searchParams }) {
             </ul>
           </div>
           <div>
-            <p className="font-mono text-xs uppercase text-graphite mb-2">Zona</p>
-            <ul className="space-y-1 text-sm text-graphite">
+            <div className="flex items-center justify-between mb-2">
+              <p className="font-mono text-xs uppercase text-graphite">Zona</p>
+              {zona && (
+                <a href={`/buscar?${qParam.replace(/^&/, '')}`} className="text-xs text-alert hover:underline">
+                  Quitar
+                </a>
+              )}
+            </div>
+            <ul className="space-y-1 text-sm">
               {zonas.map((z) => (
-                <li key={z.id}>{z.nombre}</li>
+                <li key={z.id}>
+                  <a
+                    href={`/buscar?zona=${z.id}${qParam}`}
+                    className={zona === z.id ? 'text-ink font-semibold underline' : 'text-graphite hover:text-ink'}
+                  >
+                    {z.nombre}
+                  </a>
+                </li>
               ))}
             </ul>
           </div>
@@ -99,7 +119,7 @@ export default async function BuscarPage({ searchParams }) {
               {totalPaginas > 1 && (
                 <div className="flex items-center justify-center gap-4 mt-10 font-mono text-sm">
                   {page > 1 ? (
-                    <a href={`/buscar?page=${page - 1}${qParam}`} className="text-ink hover:underline">
+                    <a href={`/buscar?page=${page - 1}${qParam}${zonaParam}`} className="text-ink hover:underline">
                       ← Anterior
                     </a>
                   ) : (
@@ -107,7 +127,7 @@ export default async function BuscarPage({ searchParams }) {
                   )}
                   <span className="text-graphite">Página {page} de {totalPaginas}</span>
                   {page < totalPaginas ? (
-                    <a href={`/buscar?page=${page + 1}${qParam}`} className="text-ink hover:underline">
+                    <a href={`/buscar?page=${page + 1}${qParam}${zonaParam}`} className="text-ink hover:underline">
                       Siguiente →
                     </a>
                   ) : (
