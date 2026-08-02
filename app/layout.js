@@ -2,6 +2,7 @@ import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import RegistrarServiceWorker from '@/components/RegistrarServiceWorker';
+import InstalarApp from '@/components/InstalarApp';
 
 export const metadata = {
   title: 'Vips — Directorio de Profesionales Independientes',
@@ -34,6 +35,7 @@ export default function RootLayout({ children }) {
         <Header />
         <main className="min-h-screen">{children}</main>
         <Footer />
+        <InstalarApp />
       </body>
     </html>
   );
