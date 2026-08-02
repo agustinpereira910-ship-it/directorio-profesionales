@@ -37,7 +37,7 @@ export async function POST(request) {
 
   const { data: profesional } = await supabaseAdmin
     .from('profesionales')
-    .select('nombre, user_id')
+    .select('nombre, user_id, foto_url')
     .eq('id', profesional_id)
     .single();
 
@@ -48,6 +48,10 @@ export async function POST(request) {
   const { data: usuario } = await supabaseAdmin.auth.admin.getUserById(profesional.user_id);
   const email = usuario?.user?.email;
   if (!email) return NextResponse.json({ received: true });
+
+  const fotoHtml = profesional.foto_url
+    ? `<img src="${profesional.foto_url}" alt="Foto de perfil" width="80" height="80" style="border-radius:50%;object-fit:cover;display:block;margin-bottom:16px;" />`
+    : '';
 
   await fetch('https://api.resend.com/emails', {
     method: 'POST',
@@ -60,6 +64,7 @@ export async function POST(request) {
       to: [email],
       subject: 'Revisamos tu perfil en Vips — ya podés activarlo',
       html: `
+        ${fotoHtml}
         <p>Hola ${profesional.nombre},</p>
         <p>Revisamos tu perfil en Vips y quedó confirmado. Ya podés completar el pago para
         activarlo y empezar a aparecer en el directorio.</p>

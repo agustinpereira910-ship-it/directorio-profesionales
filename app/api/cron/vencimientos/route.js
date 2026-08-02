@@ -20,7 +20,7 @@ export async function GET(request) {
   // 1) Perfiles activos que vencen pronto y todavía no recibieron el aviso.
   const { data: porVencer } = await supabaseAdmin
     .from('profesionales')
-    .select('id, nombre, user_id, fecha_vencimiento')
+    .select('id, nombre, user_id, fecha_vencimiento, foto_url')
     .eq('estado', 'activo')
     .lte('fecha_vencimiento', limiteAviso.toISOString())
     .gt('fecha_vencimiento', ahora.toISOString())
@@ -34,6 +34,7 @@ export async function GET(request) {
       to: email,
       subject: 'Tu publicación en Vips vence pronto',
       html: `
+        ${fotoHtml(p.foto_url)}
         <p>Hola ${p.nombre},</p>
         <p>Tu publicación en Vips vence el ${new Date(p.fecha_vencimiento).toLocaleDateString('es-UY')}.</p>
         <p>Para seguir activo en el directorio, renová tu pago (transferencia o Mercado Pago) antes de esa fecha desde tu panel: <a href="${process.env.NEXT_PUBLIC_SITE_URL}/panel/pago">${process.env.NEXT_PUBLIC_SITE_URL}/panel/pago</a></p>
@@ -55,7 +56,7 @@ export async function GET(request) {
   // 2) Perfiles activos que ya vencieron: pasan a "vencido" y desaparecen del directorio.
   const { data: vencidos } = await supabaseAdmin
     .from('profesionales')
-    .select('id, nombre, user_id')
+    .select('id, nombre, user_id, foto_url')
     .eq('estado', 'activo')
     .lt('fecha_vencimiento', ahora.toISOString());
 
@@ -69,6 +70,7 @@ export async function GET(request) {
         to: email,
         subject: 'Tu publicación en Vips venció',
         html: `
+          ${fotoHtml(p.foto_url)}
           <p>Hola ${p.nombre},</p>
           <p>Tu publicación en Vips venció y dejó de aparecer en el directorio.</p>
           <p>Para reactivarla, entrá a tu panel y renová el pago: <a href="${process.env.NEXT_PUBLIC_SITE_URL}/panel/pago">${process.env.NEXT_PUBLIC_SITE_URL}/panel/pago</a></p>
@@ -78,6 +80,11 @@ export async function GET(request) {
   }
 
   return NextResponse.json(resultados);
+}
+
+function fotoHtml(fotoUrl) {
+  if (!fotoUrl) return '';
+  return `<img src="${fotoUrl}" alt="Foto de perfil" width="80" height="80" style="border-radius:50%;object-fit:cover;display:block;margin-bottom:16px;" />`;
 }
 
 async function emailDeUsuario(userId) {
