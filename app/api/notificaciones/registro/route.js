@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { rateLimit } from '@/lib/rateLimit';
-import { LOGO_HTML } from '@/lib/emailLogo';
+import { LOGO_HTML, FROM_EMAIL, FOOTER_HTML } from '@/lib/emailLogo';
 
 // Se dispara automáticamente apenas alguien publica su perfil (ver app/publicar/page.js).
 // Le manda un email invitándolo a completar el pago — no depende de que un admin
@@ -53,7 +53,7 @@ export async function POST(request) {
       Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
     },
     body: JSON.stringify({
-      from: 'Vips <hola@misvips.com>',
+      from: FROM_EMAIL,
       to: [email],
       subject: 'Ya casi — completá el pago para activar tu perfil en Vips',
       html: `
@@ -62,6 +62,7 @@ export async function POST(request) {
         <p>Guardamos tu perfil en Vips. Para que se active y empieces a aparecer en el
         directorio, completá el pago (Mercado Pago o transferencia):</p>
         <p><a href="${process.env.NEXT_PUBLIC_SITE_URL}/panel/pago">${process.env.NEXT_PUBLIC_SITE_URL}/panel/pago</a></p>
+        ${FOOTER_HTML}
       `,
     }),
   });

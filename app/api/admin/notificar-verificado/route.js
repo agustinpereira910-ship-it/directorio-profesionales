@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { rateLimit } from '@/lib/rateLimit';
-import { LOGO_HTML } from '@/lib/emailLogo';
+import { LOGO_HTML, FROM_EMAIL, FOOTER_HTML } from '@/lib/emailLogo';
 
 // Le avisa por email a un profesional que su perfil fue revisado y ya puede
 // pagar para activarse. Solo lo puede disparar el admin.
@@ -57,7 +57,7 @@ export async function POST(request) {
       Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
     },
     body: JSON.stringify({
-      from: 'Vips <hola@misvips.com>',
+      from: FROM_EMAIL,
       to: [email],
       subject: 'Revisamos tu perfil en Vips — ya podés activarlo',
       html: `
@@ -66,6 +66,7 @@ export async function POST(request) {
         <p>Revisamos tu perfil en Vips y quedó confirmado. Ya podés completar el pago para
         activarlo y empezar a aparecer en el directorio.</p>
         <p><a href="${process.env.NEXT_PUBLIC_SITE_URL}/panel/pago">${process.env.NEXT_PUBLIC_SITE_URL}/panel/pago</a></p>
+        ${FOOTER_HTML}
       `,
     }),
   });

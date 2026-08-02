@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
-import { LOGO_HTML } from '@/lib/emailLogo';
+import { LOGO_HTML, FROM_EMAIL, FOOTER_HTML } from '@/lib/emailLogo';
 
 const DIAS_AVISO_PREVIO = 3;
 
@@ -40,6 +40,7 @@ export async function GET(request) {
         <p>Tu publicación en Vips vence el ${new Date(p.fecha_vencimiento).toLocaleDateString('es-UY')}.</p>
         <p>Para seguir activo en el directorio, renová tu pago (transferencia o Mercado Pago) antes de esa fecha desde tu panel: <a href="${process.env.NEXT_PUBLIC_SITE_URL}/panel/pago">${process.env.NEXT_PUBLIC_SITE_URL}/panel/pago</a></p>
         <p>Si ya pagás con Mercado Pago de forma automática, no necesitás hacer nada — este aviso es solo por las dudas.</p>
+        ${FOOTER_HTML}
       `,
     });
 
@@ -75,6 +76,7 @@ export async function GET(request) {
           <p>Hola ${p.nombre},</p>
           <p>Tu publicación en Vips venció y dejó de aparecer en el directorio.</p>
           <p>Para reactivarla, entrá a tu panel y renová el pago: <a href="${process.env.NEXT_PUBLIC_SITE_URL}/panel/pago">${process.env.NEXT_PUBLIC_SITE_URL}/panel/pago</a></p>
+          ${FOOTER_HTML}
         `,
       });
     }
@@ -97,7 +99,7 @@ async function enviarEmail({ to, subject, html }) {
       Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
     },
     body: JSON.stringify({
-      from: 'Vips <hola@misvips.com>',
+      from: FROM_EMAIL,
       to: [to],
       subject,
       html,
