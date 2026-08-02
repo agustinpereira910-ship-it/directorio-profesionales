@@ -23,10 +23,10 @@ export default function PreciosPage() {
 
         <div className="mt-6 pt-6 border-t border-line">
           <p className="font-mono text-xs uppercase text-graphite mb-3">Medios de pago aceptados</p>
-          <div className="flex justify-center gap-3">
-            <LogoMercadoPago className="w-9 h-9 rounded-sm" />
-            <LogoScotiabank className="w-9 h-9 rounded-sm" />
-            <LogoItau className="w-9 h-9 rounded-sm" />
+          <div className="flex justify-center items-center gap-3 flex-wrap">
+            <LogoMercadoPago className="h-9" />
+            <LogoScotiabank className="h-9" />
+            <LogoItau className="h-9" />
           </div>
         </div>
       </div>

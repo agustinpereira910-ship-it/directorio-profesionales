@@ -127,7 +127,7 @@ export default function PagoPage() {
                 metodo === m ? 'border-ink bg-ink text-paper' : 'border-line text-graphite'
               }`}
             >
-              <Logo className="w-6 h-6 rounded-sm shrink-0" />
+              <Logo className="h-6" />
               {ETIQUETAS[m]}
             </button>
           );
@@ -147,7 +147,7 @@ export default function PagoPage() {
               disabled={loading || !profesionalId}
               className="w-full flex items-center justify-center gap-2 bg-ink text-paper font-medium py-3 rounded-sm hover:bg-graphite transition disabled:opacity-50"
             >
-              <LogoMercadoPago className="w-6 h-6 rounded-sm" />
+              <LogoMercadoPago className="h-7" />
               {loading ? 'Redirigiendo...' : 'Suscribirme con Mercado Pago'}
             </button>
           </div>
