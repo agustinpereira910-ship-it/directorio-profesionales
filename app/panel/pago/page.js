@@ -2,6 +2,19 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 import { PLAN_MONTO, PLAN_MONTO_MERCADOPAGO } from '@/lib/planes';
+import { LogoMercadoPago, LogoScotiabank, LogoItau } from '@/components/LogosPago';
+
+const LOGOS = {
+  mercado_pago: LogoMercadoPago,
+  scotiabank: LogoScotiabank,
+  itau: LogoItau,
+};
+
+const ETIQUETAS = {
+  mercado_pago: 'Mercado Pago',
+  scotiabank: 'Scotiabank',
+  itau: 'Itaú',
+};
 
 export default function PagoPage() {
   const [metodo, setMetodo] = useState('mercado_pago');
@@ -104,17 +117,21 @@ export default function PagoPage() {
       </p>
 
       <div className="flex gap-3 mb-6">
-        {['mercado_pago', 'scotiabank', 'itau'].map((m) => (
-          <button
-            key={m}
-            onClick={() => setMetodo(m)}
-            className={`px-4 py-2 rounded-sm border-2 text-sm font-medium capitalize transition ${
-              metodo === m ? 'border-ink bg-ink text-paper' : 'border-line text-graphite'
-            }`}
-          >
-            {m.replace('_', ' ')}
-          </button>
-        ))}
+        {['mercado_pago', 'scotiabank', 'itau'].map((m) => {
+          const Logo = LOGOS[m];
+          return (
+            <button
+              key={m}
+              onClick={() => setMetodo(m)}
+              className={`flex items-center gap-2 px-4 py-2 rounded-sm border-2 text-sm font-medium transition ${
+                metodo === m ? 'border-ink bg-ink text-paper' : 'border-line text-graphite'
+              }`}
+            >
+              <Logo className="w-6 h-6 rounded-sm shrink-0" />
+              {ETIQUETAS[m]}
+            </button>
+          );
+        })}
       </div>
 
       <div className="bg-card border-2 border-ink rounded-sm p-6">
@@ -128,8 +145,9 @@ export default function PagoPage() {
             <button
               onClick={pagarConMercadoPago}
               disabled={loading || !profesionalId}
-              className="w-full bg-ink text-paper font-medium py-3 rounded-sm hover:bg-graphite transition disabled:opacity-50"
+              className="w-full flex items-center justify-center gap-2 bg-ink text-paper font-medium py-3 rounded-sm hover:bg-graphite transition disabled:opacity-50"
             >
+              <LogoMercadoPago className="w-6 h-6 rounded-sm" />
               {loading ? 'Redirigiendo...' : 'Suscribirme con Mercado Pago'}
             </button>
           </div>
