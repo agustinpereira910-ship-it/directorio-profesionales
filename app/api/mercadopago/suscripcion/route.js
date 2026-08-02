@@ -56,6 +56,7 @@ export async function POST(request) {
       external_reference: profesional_id,
       payer_email: payerEmail,
       back_url: `${process.env.NEXT_PUBLIC_SITE_URL}/panel?pago=exitoso`,
+      notification_url: `${process.env.NEXT_PUBLIC_SITE_URL}/api/mercadopago/webhook`,
       status: 'pending',
       auto_recurring: {
         frequency: 1,
