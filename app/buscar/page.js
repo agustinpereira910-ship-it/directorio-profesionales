@@ -2,6 +2,8 @@ import { supabase } from '@/lib/supabaseClient';
 import ProfesionalCard from '@/components/ProfesionalCard';
 import SearchBar from '@/components/SearchBar';
 
+export const revalidate = 60;
+
 const RESULTADOS_POR_PAGINA = 24;
 
 async function getResultados(q, zonaId, page) {

@@ -1,6 +1,8 @@
 import { supabase } from '@/lib/supabaseClient';
 import ProfesionalCard from '@/components/ProfesionalCard';
 
+export const revalidate = 60;
+
 const RESULTADOS_POR_PAGINA = 24;
 
 async function getCategoria(slug) {
