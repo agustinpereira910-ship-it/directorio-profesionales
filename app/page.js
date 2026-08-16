@@ -2,6 +2,7 @@ import Link from 'next/link';
 import SearchBar from '@/components/SearchBar';
 import { supabase } from '@/lib/supabaseClient';
 import ProfesionalCard from '@/components/ProfesionalCard';
+import SelloHero from '@/components/SelloHero';
 
 export const revalidate = 60;
 
@@ -32,20 +33,26 @@ export default async function Home() {
     <div>
       {/* HERO */}
       <section className="border-b-2 border-ink bg-paper">
-        <div className="max-w-6xl mx-auto px-6 py-20 text-center">
-          <p className="font-mono text-xs uppercase tracking-widest text-ochre mb-4">
-            Sin comisión · Tarifa fija · Profesionales verificados
-          </p>
-          <h1 className="font-display font-bold text-4xl md:text-6xl text-ink leading-tight mb-6">
-            Encontrá al profesional
-            <br /> que necesitás, hoy.
-          </h1>
-          <p className="text-graphite max-w-xl mx-auto mb-8">
-            Un directorio de profesionales independientes verificados. Contactás directo,
-            sin intermediarios ni comisiones sobre tu trabajo.
-          </p>
-          <div className="flex justify-center">
-            <SearchBar />
+        <div className="max-w-6xl mx-auto px-6 py-16 md:py-20 grid md:grid-cols-[1.2fr_1fr] gap-12 items-center">
+          <div className="text-center md:text-left">
+            <p className="font-mono text-xs uppercase tracking-widest text-ochre mb-4">
+              Sin comisión · Tarifa fija · Profesionales verificados
+            </p>
+            <h1 className="font-display font-bold text-4xl md:text-6xl text-ink leading-tight mb-6">
+              Encontrá al profesional
+              <br /> que necesitás, hoy.
+            </h1>
+            <p className="text-graphite max-w-xl mx-auto md:mx-0 mb-8">
+              Un directorio de profesionales independientes verificados. Contactás directo,
+              sin intermediarios ni comisiones sobre tu trabajo.
+            </p>
+            <div className="flex justify-center md:justify-start">
+              <SearchBar />
+            </div>
+          </div>
+
+          <div className="hidden md:flex justify-center">
+            <SelloHero />
           </div>
         </div>
       </section>
