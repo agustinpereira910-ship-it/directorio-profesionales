@@ -2,7 +2,6 @@ import Link from 'next/link';
 import SearchBar from '@/components/SearchBar';
 import { supabase } from '@/lib/supabaseClient';
 import ProfesionalCard from '@/components/ProfesionalCard';
-import SelloHero from '@/components/SelloHero';
 
 export const revalidate = 60;
 
@@ -51,8 +50,13 @@ export default async function Home() {
             </div>
           </div>
 
-          <div className="hidden md:flex justify-center">
-            <SelloHero />
+          <div className="hidden md:block">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/hero-directorio.jpg"
+              alt="Acuerdo profesional"
+              className="w-full rounded-sm border-2 border-ink object-cover"
+            />
           </div>
         </div>
       </section>
@@ -94,19 +98,27 @@ export default async function Home() {
 
       {/* CTA profesionales */}
       <section className="border-t-2 border-ink bg-ink">
-        <div className="max-w-6xl mx-auto px-6 py-16 text-center">
-          <h2 className="font-display font-bold text-2xl md:text-3xl text-paper mb-4">
-            ¿Sos profesional independiente?
-          </h2>
-          <p className="text-paper/80 mb-8 max-w-lg mx-auto">
-            Publicá tu perfil por una tarifa fija. Sin comisión sobre lo que ganes.
-          </p>
-          <Link
-            href="/publicar"
-            className="inline-block bg-ochre text-paper font-medium px-6 py-3 rounded-sm hover:brightness-95 transition"
-          >
-            Publicar mi perfil
-          </Link>
+        <div className="max-w-6xl mx-auto px-6 py-16 grid md:grid-cols-2 gap-10 items-center">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/corporativa.jpg"
+            alt="Equipo de profesionales trabajando"
+            className="w-full rounded-sm border-2 border-paper/30 object-cover"
+          />
+          <div className="text-center md:text-left">
+            <h2 className="font-display font-bold text-2xl md:text-3xl text-paper mb-4">
+              ¿Sos profesional independiente?
+            </h2>
+            <p className="text-paper/80 mb-8 max-w-lg mx-auto md:mx-0">
+              Publicá tu perfil por una tarifa fija. Sin comisión sobre lo que ganes.
+            </p>
+            <Link
+              href="/publicar"
+              className="inline-block bg-ochre text-paper font-medium px-6 py-3 rounded-sm hover:brightness-95 transition"
+            >
+              Publicar mi perfil
+            </Link>
+          </div>
         </div>
       </section>
     </div>
